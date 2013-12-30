@@ -17,7 +17,7 @@ $ = function(id) {
 /**
  * Sets the global variable gUseRtpDataChannel in message_handling.js
  * based on the check box element 'data-channel-type-rtp' checked status on
- * peerconnection.html. Also prints a help text to inform the user.
+ * index.html. Also prints a help text to inform the user.
  */
 function setPcDataChannelType() {
   var useRtpDataChannels = $('data-channel-type-rtp').checked;
@@ -30,7 +30,7 @@ function setPcDataChannelType() {
   }
 }
 
-// The *Here functions are called from peerconnection.html and will make calls
+// The *Here functions are called from index.html and will make calls
 // into our underlying JavaScript library with the values from the page
 // (have to be named differently to avoid name clashes with existing functions).
 
