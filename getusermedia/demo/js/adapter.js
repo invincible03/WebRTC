@@ -13,7 +13,9 @@ function trace(text) {
   console.log((performance.now() / 1000).toFixed(3) + ": " + text);
 }
 
-if (navigator.mozGetUserMedia) {
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+if (navigator.getUserMedia) {
   console.log("This appears to be Firefox");
 
   webrtcDetectedBrowser = "firefox";
@@ -22,17 +24,17 @@ if (navigator.mozGetUserMedia) {
                   parseInt(navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1]);
 
   // The RTCPeerConnection object.
-  RTCPeerConnection = mozRTCPeerConnection;
+  RTCPeerConnection = webkitGetUserMedia || mozRTCPeerConnection;
 
   // The RTCSessionDescription object.
-  RTCSessionDescription = mozRTCSessionDescription;
+  RTCSessionDescription = RTCSessionDescription || webkitRTCSessionDescription || mozRTCSessionDescription;
 
   // The RTCIceCandidate object.
-  RTCIceCandidate = mozRTCIceCandidate;
+  RTCIceCandidate = RTCIceCandidate || webkitRTCIceCandidate || mozRTCIceCandidate;
 
   // Get UserMedia (only difference is the prefix).
   // Code from Adam Barth.
-  getUserMedia = navigator.mozGetUserMedia.bind(navigator);
+  getUserMedia = navigator.getUserMedia.bind(navigator);
 
   // Creates iceServer from the url for FF.
   createIceServer = function(url, username, password) {
@@ -57,13 +59,15 @@ if (navigator.mozGetUserMedia) {
   // Attach a media stream to an element.
   attachMediaStream = function(element, stream) {
     console.log("Attaching media stream");
-    element.mozSrcObject = stream;
+	srcObject = navigator.srcObject || navigator.mozSrcObject || navigator.webkitSrcObject
+    element.srcObject = stream;
     element.play();
   };
 
   reattachMediaStream = function(to, from) {
     console.log("Reattaching media stream");
-    to.mozSrcObject = from.mozSrcObject;
+	srcObject = navigator.srcObject || navigator.mozSrcObject || navigator.webkitSrcObject
+    to.srcObject = from.srcObject;
     to.play();
   };
 
